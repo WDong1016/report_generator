@@ -14,7 +14,15 @@ export default class NavigationBar extends Component {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <Link to="/signin" className="nav-link">Sign In</Link>
+                            <Link to="/signin" className="nav-link">登录</Link>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <Link to="/upload" className="nav-link">上传文件</Link>
                         </li>
                     </ul>
                 </div>
