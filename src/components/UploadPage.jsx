@@ -3,22 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import * as uploadActions from '../actions/uploadActions'
 import XLSX from 'xlsx'
+import { createLogger } from 'redux-logger';
+import ShowTable from './ShowTable'
 
-
-
-
-
-
-class UploadPage extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            CMData: {},
-            CUData: {},
-            CTData: {}
-        }
-    }
+export class UploadPage extends Component {
     importExcel(file, type) {
         console.log("importing...")
         // 获取上传的文件对象
@@ -41,13 +29,13 @@ class UploadPage extends Component {
                 }
                 switch (type) {
                     case 'CM':
-                        this.setState({ CMData: data })
+                        this.props.onCM(data)
                         break
                     case 'CU':
-                        this.setState({ CUData: data })
+                        this.props.onCU(data)
                         break
                     case "CT":
-                        this.setState({ CTData: data })
+                        this.props.onCT(data)
                         break
                     default:
                         break
@@ -62,7 +50,7 @@ class UploadPage extends Component {
         // 以二进制方式打开文件
 
         console.log(files)
-        if(files.length !== 0)
+        if (files.length !== 0)
             fileReader.readAsBinaryString(files[0])
         //    console.log("Data before return:", data)
         //    return data;
@@ -70,51 +58,96 @@ class UploadPage extends Component {
 
     onHandleCM = file => {
         this.importExcel(file, "CM")
-        console.log("data in onHandleCM", this.state.CMData)
+        // console.log("data in onHandleCM", this.state.CMData)
     }
 
     onHandleCU = file => {
         this.importExcel(file, "CU")
-        console.log("data in onHandleCU", this.state.CUData)
+        // console.log("data in onHandleCU", this.state.CUData)
     }
 
     onHandleCT = file => {
         this.importExcel(file, "CT")
-        console.log("data in onHandleCT", this.state.CTData)
+        // console.log("data in onHandleCT", this.state.CTData)
     }
 
 
     render() {
+        console.log(this.props.upload)
+        const { CMData, CUData, CTData } = this.props.upload;
+        console.log(CMData)
         return (
             <div>
+                {/* <h4>CM: </h4> 
+
+                 <h4>CU: </h4> 
+                 <h4>CT: </h4>  */}
+                {/* <h4>CU:{CUData}</h4>
+                <h4>CT:{CTData}</h4> */}
                 <h3>移动文件:</h3>
-                <input type='file' accept='.xlsx, .xls' onChange={(e) => { this.onHandleCM(e) }} />
-                { console.log("CMData:", this.state.CMData)}
+                <div class="input-group mb-3">
+                    {/* <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                    </div> */}
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01"
+                        accept='.xlsx, .xls' onChange={(e) => { this.onHandleCM(e) }}
+                        aria-describedby="inputGroupFileAddon01" />
+                        <label class="custom-file-label" for="inputGroupFile01">选择文件</label>
+                    </div>
+                </div>
+                <ShowTable data={CMData} />
+
+                {console.log("CMData:", CMData)}
                 <h3>联通文件:</h3>
-                <input type='file' accept='.xlsx, .xls' onChange={(e) => { this.onHandleCU(e) }} />
-                { console.log("CUData:", this.state.CUData)}
+                <div class="input-group mb-3">
+                    {/* <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                    </div> */}
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile02"
+                        accept='.xlsx, .xls' onChange={(e) => { this.onHandleCU(e) }}
+                        aria-describedby="inputGroupFileAddon02" />
+                        <label class="custom-file-label" for="inputGroupFile02">选择文件</label>
+                    </div>
+                </div>
+                <ShowTable data={CUData} />
+                {console.log("CUData:", CUData)}
                 <h3>电信文件:</h3>
-                <input type='file' accept='.xlsx, .xls' onChange={(e) => { this.onHandleCT(e) }} />
-                { console.log("CTData:", this.state.CTData)}
+                <div class="input-group mb-3">
+                    {/* <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                    </div> */}
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile03"
+                        accept='.xlsx, .xls' onChange={(e) => { this.onHandleCT(e) }}
+                        aria-describedby="inputGroupFileAddon03" />
+                        <label class="custom-file-label" for="inputGroupFile03">选择文件</label>
+                    </div>
+                </div>
+                <ShowTable data={CTData} />
+                {console.log("CTData:", CTData)}
+
+                {/* <button type="button" className="btn btn-primary ml-1" onClick={this.onHandleCM}>CM</button>
+                <button type="button" className="btn btn-secondary ml-1" onClick={this.onHandleCU}>CU</button>
+                <button type="button" className="btn btn-success ml-1" onClick={this.onHandleCT}>CT</button> */}
             </div>
         )
     }
 }
 
-// const mapStateToProps = (state) => {
-//     return {
-//         CMData: state.CMData,
-//         CUData: state.CUData,
-//         CTData: state.CTData
-//     }
-// }
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+        upload: state.upload
+    }
+}
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         uploadActions: bindActionCreators(uploadActions, dispatch)
-//     }
-// }
+const mapDispatchToProps = (dispatch) => ({
+    // uploadActions: bindActionCreators(uploadActions, dispatch)
+    onCM: (data) => dispatch(uploadActions.onCM(data)),
+    onCU: (data) => dispatch(uploadActions.onCU(data)),
+    onCT: (data) => dispatch(uploadActions.onCT(data))
+})
 
-// export default connect(mapStateToProps, mapDispatchToProps)(UploadPage)
-
-export default UploadPage
+export default connect(mapStateToProps, mapDispatchToProps)(UploadPage)
