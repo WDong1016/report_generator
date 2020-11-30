@@ -128,6 +128,7 @@ export class UploadPage extends Component {
                 <ShowTable data={CTData} />
                 {console.log("CTData:", CTData)}
 
+                <button type="button" className="btn btn-primary ml-1" onClick={this.onSubmit}>提交</button>
                 {/* <button type="button" className="btn btn-primary ml-1" onClick={this.onHandleCM}>CM</button>
                 <button type="button" className="btn btn-secondary ml-1" onClick={this.onHandleCU}>CU</button>
                 <button type="button" className="btn btn-success ml-1" onClick={this.onHandleCT}>CT</button> */}

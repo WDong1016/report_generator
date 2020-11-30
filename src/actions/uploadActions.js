@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 //China Mobile
 export function onCM(data){
     console.log("onCM:",data)
@@ -18,5 +20,13 @@ export function onCT(data){
     return {
         type: 'UPLOADCT',
         CTData:data
+    }
+}
+
+//提交
+
+export const uploadRequest = (userData) =>{
+    return dispatch =>{
+        return axios.post("/api/upload",userData) 
     }
 }
