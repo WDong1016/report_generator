@@ -71,6 +71,17 @@ export class UploadPage extends Component {
         // console.log("data in onHandleCT", this.state.CTData)
     }
 
+    
+    onSubmit = (e) => {
+        e.preventDefault();
+        console.log(this.props.upload)
+        this.props.uploadRequest(this.props.upload).then(
+            () => { },
+            () => {}
+           // ({ response }) => { this.setState({ errors: response.data, isLoading: false }) }
+        )
+    }
+
 
     render() {
         console.log(this.props.upload)
@@ -148,7 +159,8 @@ const mapDispatchToProps = (dispatch) => ({
     // uploadActions: bindActionCreators(uploadActions, dispatch)
     onCM: (data) => dispatch(uploadActions.onCM(data)),
     onCU: (data) => dispatch(uploadActions.onCU(data)),
-    onCT: (data) => dispatch(uploadActions.onCT(data))
+    onCT: (data) => dispatch(uploadActions.onCT(data)),
+    uploadRequest: (data) => dispatch(uploadActions.uploadRequest(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UploadPage)
